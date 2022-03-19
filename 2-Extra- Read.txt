@@ -1,0 +1,2 @@
+These are extra to the project;
+Will not open exept with be Open Server because of images used

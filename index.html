@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WebGL with three.js Fundementals </title>
+    </head>
+
+    <body>
+        <script type="x-shader/x-vertex" id="atmosphereVertex">
+            varying vec3 vertexNormal;
+            varying vec3 vPositionNormal; 
+
+            void main()
+            {
+                vertexNormal = normalize(normalMatrix * normal);
+                vPositionNormal = normalize(( modelViewMatrix * vec4(position, 1.0) ).xyz);
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1);
+            }
+        </script>
+
+        <script type="x-shader/x-fragment" id="atmosphereFragment">
+            varying vec3 vertexNormal;
+            varying vec3 vPositionNormal;
+
+            void main()
+            {
+                float intensity = pow(-0.2 - dot(vertexNormal, vPositionNormal),2.0);     
+                gl_FragColor = vec4(1.0, 0.9, 0.75, 1.0) * intensity;
+            }
+        </script>
+
+        <!-- Example for custom Shader -->
+
+         <!-- <script type="x-shader/x-vertex" id="vertexShader">
+            varying vec2 vertexUV;
+            varying vec3 vertexNormal;
+
+            void main()
+            {
+                vertexUV = uv;
+                vertexNormal = normal;
+
+                gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1);
+            }
+        </script>
+         
+        <script type="x-shader/x-fragment" id="fragmentShader">
+            uniform sampler2D sunTexture;
+            varying vec2 vertexUV;
+            varying vec3 vertexNormal;
+
+            void main()
+            {
+                float intensity = 1.05 - dot(vertexNormal, vec3(0.0,0.0,0.0));
+                vec3 atmosphere = vec3(1,1,0.9) * pow(intensity, 1.5);
+                
+                gl_FragColor = vec4(atmosphere + texture2D(sunTexture, vertexUV).xyz, 1.0);
+            }
+        </script>  -->
+
+
+        <div id = "webgl-container"></div>
+        <script src = "stats.js"></script>
+        <script type="module" src = "three.module.js"></script>
+        <script type="module" src = "app.js"></script>
+        <script type="module" src="OrbitControls.js"></script>	
+    </body>
+</html>
